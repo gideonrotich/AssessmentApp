@@ -20,6 +20,7 @@ import com.swayy.cooperativebank.util.Route
 import androidx.navigation.compose.composable
 import com.example.testapp.presentation.screens.HomeScreen
 import com.example.testapp.presentation.screens.LoginScreen
+import com.example.testapp.presentation.screens.ProductDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,12 +41,17 @@ class MainActivity : ComponentActivity() {
                         startDestination = Route.LOGIN_SCREEN
                     ) {
                         composable(route = Route.LOGIN_SCREEN){
-                            LoginScreen(navigateToWelcomeScreen = {
-                                navController.navigate(Route.HOME)
-                            })
+                            LoginScreen(navController = navController)
                         }
                         composable(route = Route.HOME){
-                            HomeScreen()
+                            HomeScreen(
+                                navController = navController
+                            )
+                        }
+
+                        composable(route = Route.POST_SCREEN+ "/{id}"){
+                            val id = it.arguments?.getString("id") ?:""
+                            ProductDetailsScreen(navController = navController,id = id)
                         }
                     }
                 }

@@ -12,11 +12,15 @@ class PostRepositoryImpl @Inject constructor(
     private val api: PostApi
 ):PostRepository {
     override suspend fun getPost(): Resource<List<Post>> {
-       return api.getAllPosts()
+        return safeApiCall(Dispatchers.IO) {
+            api.getAllPosts()
+        }
     }
 
     override suspend fun getPostDetail(id: String): Resource<Post> {
-        return api.getPostById(postId = id)
+        return safeApiCall(Dispatchers.IO) {
+            api.getPostById(postId = id)
+        }
     }
 
 }

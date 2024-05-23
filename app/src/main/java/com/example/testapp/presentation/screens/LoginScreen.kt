@@ -72,13 +72,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.example.testapp.R
+import com.swayy.cooperativebank.util.Route
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navigateToWelcomeScreen: () -> Unit,
+   navController: NavController
 ) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -194,28 +196,107 @@ fun LoginScreen(
                 Text(
                     text = "Use your credentials to log in",
                     style = TextStyle(
-                        color = Color(0xFF4F4F50),
-                        fontSize = 18.sp,
+                        color = Color.Gray,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
                 )
             }
 
 
-            Spacer(modifier = Modifier.height(70.dp))
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 40.dp),
+                value = "",
+                onValueChange = {
+
+                },
+                label = {
+                    Text(text = "Username")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "",
+                        tint = Color.Gray
+                    )
+
+                },
+                isError = false,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.Green,
+                    unfocusedBorderColor = Color.Gray,
+                    cursorColor = Color.Gray,
+                    focusedLabelColor = Color.Green,
+                    unfocusedLabelColor = Color.Gray,
+                ),
+
+                )
 
             OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp),
                 value = "",
-                onValueChange = {}
+                onValueChange = {
 
-            )
-            OutlinedTextField(
-                value = "",
-                onValueChange = {}
+                },
+                label = {
+                    Text(text = "Password")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+                isError = false,
+                visualTransformation =
+                    PasswordVisualTransformation()
+              ,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "",
+                        tint = Color.Gray
+                    )
+
+                },
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+
+                        },
+                        modifier = Modifier.semantics {
+                            testTag = "PasswordToggle"
+                        }
+                    ) {
+                        Icon(
+
+                                Icons.Filled.Visibility
+                            ,
+                            contentDescription =
+                                "Show Password"
+
+                        )
+                    }
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.Green,
+                    unfocusedBorderColor = Color.Gray,
+                    cursorColor = Color.Gray,
+                    focusedLabelColor = Color.Green,
+                    unfocusedLabelColor = Color.Gray,
+                ),
             )
 
+
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick = navigateToWelcomeScreen,
+                onClick ={
+                    navController.navigate(Route.HOME)
+                },
                 modifier = Modifier
                     .fillMaxWidth(0.95f)
                     .height(75.dp)
