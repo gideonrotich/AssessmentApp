@@ -46,7 +46,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -80,7 +82,7 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-   navController: NavController
+    navController: NavController
 ) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -203,14 +205,14 @@ fun LoginScreen(
                 )
             }
 
-
+            var text by remember { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp, end = 20.dp, top = 40.dp),
-                value = "",
+                value = text,
                 onValueChange = {
-
+                    text = it
                 },
                 label = {
                     Text(text = "Username")
@@ -237,13 +239,14 @@ fun LoginScreen(
 
                 )
 
+            var username by remember { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp, end = 20.dp),
-                value = "",
+                value = username,
                 onValueChange = {
-
+                    username = it
                 },
                 label = {
                     Text(text = "Password")
@@ -253,8 +256,7 @@ fun LoginScreen(
                 ),
                 isError = false,
                 visualTransformation =
-                    PasswordVisualTransformation()
-              ,
+                PasswordVisualTransformation(),
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Person,
@@ -274,10 +276,9 @@ fun LoginScreen(
                     ) {
                         Icon(
 
-                                Icons.Filled.Visibility
-                            ,
+                            Icons.Filled.Visibility,
                             contentDescription =
-                                "Show Password"
+                            "Show Password"
 
                         )
                     }
@@ -294,7 +295,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick ={
+                onClick = {
                     navController.navigate(Route.HOME)
                 },
                 modifier = Modifier
